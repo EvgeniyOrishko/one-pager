@@ -17,7 +17,12 @@ source-images/          originals: photo and favicon (not referenced by the page
 - **Bot link:** in `index.html`, replace `your_bot` in `https://t.me/your_bot?start=promo`.
 - **Text:** in `index.html`, edit `.title`, `.subtitle`, `.tagline`, `.eyebrow` (headline block) and `.desc` (above the button). Update the `description` / `og:description` / `twitter:description` meta tags to match.
 - **Colors and fonts:** variables at the top of `assets/css/styles.css` (`--page-bg`, `--blush`, `--cream`, `--display`, `--sans`).
-- **Photo framing:** `--photo-zoom`, `--photo-height`, `--photo-focus` at the top of `styles.css`. After changing `--photo-zoom`, update the `sizes` attribute on the `<img>` in `index.html` (`calc(100vw * ZOOM), 520*ZOOMpx`) so phones download a sharp enough file.
+- **Photo framing:** variables at the top of `styles.css`:
+  - `--head-gap`: space between the headline arrow and the top of mom's head. The photo slides up under the headline by a computed `--photo-lift`, so this gap is the same on every screen.
+  - `--photo-height`: photo height (share of screen height, with min/max).
+  - `--photo-focus-y`: which part of the photo stays in frame when it doesn't fit (0 = top, 1 = bottom).
+  - `--photo-zoom`: keep at 1. Above 1 the head-gap formula no longer matches, and the `sizes` attribute on the `<img>` must become `calc(100vw * ZOOM), 520*ZOOMpx`.
+  - If you re-crop the photo, update `0.2635` in the `--photo-lift` formula: where the top of the head is, as a share of the image height.
 - **Photo file:** put the original in `source-images/`, then regenerate the WebP files (a 2000×2000 square around the people):
 
 ```sh

@@ -15,9 +15,21 @@
   --sans: Montserrat, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Photo controls */
-  --photo-zoom: 1;                          /* 1 = full width; 1.2 = people 20% bigger (sides get cropped). If above 1, also update sizes="" in index.html */
+  --photo-zoom: 1;                            /* 1 = full width; 1.2 = people 20% bigger (sides get cropped). If above 1, also update sizes="" in index.html */
   --photo-height: clamp(240px, 48svh, 540px); /* min, share of screen height, max */
-  --photo-focus: 50% 40%;                    /* which part stays in frame: x y (0% 0% = top-left) */
+  --photo-focus-y: 0.4;                       /* 0 = keep top of photo in frame, 1 = keep bottom */
+  --photo-focus: 50% calc(var(--photo-focus-y) * 100%);
+  --head-gap: 18px;                           /* space between the arrow and the top of mom's head, same on every screen */
+
+  /* The photo slides up under the headline so the head lands --head-gap below the text.
+     0.2635 = where the top of the head is in hero-*.webp (26% from the top); change it only if you re-crop the photo. */
+  --photo-w: min(100vw, 520px);
+  --photo-scaled: max(var(--photo-w), var(--photo-height)); /* square photo scaled to cover the box */
+  --photo-lift: calc(
+    0.2635 * var(--photo-scaled)
+    - var(--photo-focus-y) * (var(--photo-scaled) - var(--photo-height))
+    - var(--head-gap)
+  );
 }
 
 html,
@@ -49,6 +61,8 @@ body {
 
 /* Headline block, styled after the story: big blush serif, bold italic line, spaced caps, thin arrow */
 .poster__head {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -118,6 +132,7 @@ body {
 /* Photo: toned down to studio grey; its edges are masked out, so it dissolves into the page with no seam */
 .poster__media {
   position: relative;
+  margin-top: calc(-1 * var(--photo-lift));
   overflow: hidden;
 }
 
