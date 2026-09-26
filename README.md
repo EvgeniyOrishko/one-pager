@@ -45,4 +45,11 @@ npm run build    # production build into dist/
 npm run preview  # serve the dist/ build
 ```
 
-Deploy the contents of `dist/` to https://helper.makorishko.yoga.
+## Deployment
+
+Every push to `master` builds the site and publishes it to GitHub Pages (`.github/workflows/deploy.yml`). The custom domain comes from `public/CNAME`.
+
+One-time setup:
+- GitHub → repo **Settings → Pages → Source: GitHub Actions**.
+- DNS for `makorishko.yoga`: `CNAME` record `helper` → `evgeniyorishko.github.io`.
+- After DNS resolves: **Settings → Pages → Enforce HTTPS**.
