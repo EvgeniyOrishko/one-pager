@@ -15,9 +15,9 @@
   --sans: Montserrat, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Photo controls */
-  --photo-zoom: 1.7;                        /* 1 = full width; 1.2 = people 20% bigger (sides get cropped). Keep in sync with sizes="" in index.html */
+  --photo-zoom: 1;                          /* 1 = full width; 1.2 = people 20% bigger (sides get cropped). If above 1, also update sizes="" in index.html */
   --photo-height: clamp(240px, 48svh, 540px); /* min, share of screen height, max */
-  --photo-focus: 45% 12%;                    /* which part stays in frame: x y (0% 0% = top-left) */
+  --photo-focus: 50% 40%;                    /* which part stays in frame: x y (0% 0% = top-left) */
 }
 
 html,
@@ -126,27 +126,24 @@ body {
     to bottom,
     transparent 0%,
     rgba(0, 0, 0, 0.04) 4%,
-    rgba(0, 0, 0, 0.15) 9%,
-    rgba(0, 0, 0, 0.33) 14%,
-    rgba(0, 0, 0, 0.55) 19%,
-    rgba(0, 0, 0, 0.75) 24%,
-    rgba(0, 0, 0, 0.9) 29%,
-    rgba(0, 0, 0, 0.98) 34%,
-    #000 38%,
-    #000 50%,
-    rgba(0, 0, 0, 0.97) 55%,
-    rgba(0, 0, 0, 0.88) 61%,
-    rgba(0, 0, 0, 0.72) 67%,
-    rgba(0, 0, 0, 0.52) 73%,
-    rgba(0, 0, 0, 0.32) 80%,
-    rgba(0, 0, 0, 0.15) 87%,
-    rgba(0, 0, 0, 0.05) 94%,
+    rgba(0, 0, 0, 0.14) 8%,
+    rgba(0, 0, 0, 0.3) 12%,
+    rgba(0, 0, 0, 0.5) 16%,
+    rgba(0, 0, 0, 0.7) 20%,
+    rgba(0, 0, 0, 0.86) 24%,
+    rgba(0, 0, 0, 0.96) 28%,
+    #000 31%,
+    #000 74%,
+    rgba(0, 0, 0, 0.88) 80%,
+    rgba(0, 0, 0, 0.66) 85%,
+    rgba(0, 0, 0, 0.42) 90%,
+    rgba(0, 0, 0, 0.2) 95%,
     transparent 100%
   );
   display: block;
   width: calc(100% * var(--photo-zoom));
   max-width: none;
-  margin-left: calc(50% - 44% * var(--photo-zoom));
+  margin-left: calc(50% - 50% * var(--photo-zoom));
   height: var(--photo-height);
   object-fit: cover;
   object-position: var(--photo-focus);
@@ -157,7 +154,7 @@ body {
 
 .poster__content {
   position: relative;
-  margin-top: -90px;
+  margin-top: -30px;
   display: flex;
   flex-direction: column;
   gap: 14px;
