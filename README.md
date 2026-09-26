@@ -1,37 +1,43 @@
 # One-pager
 
-Mobile landing page: full-screen photo, short description, and a button that opens the Telegram bot.
+Mobile landing page for https://helper.makorishko.yoga: a headline in the style of the Instagram stories, a photo, a short description, and a button that opens the Telegram bot.
 
 ## Structure
 
 ```
-index.html              page markup (Vite entry)
-assets/css/styles.css   styles
-assets/img/             optimized WebP images served by the page
-public/                 favicons + web manifest, copied to dist/ as-is
+index.html              page markup and meta tags (Vite entry)
+assets/css/styles.css   styles; colors, fonts and photo controls are variables at the top
+assets/img/             hero photo as WebP in 800/1200/1600/2400 px widths
+public/                 copied to dist/ as-is: favicons, web manifest, og.jpg (link preview), robots.txt, sitemap.xml
 source-images/          originals: photo and favicon (not referenced by the page)
 ```
 
 ## Editing
 
 - **Bot link:** in `index.html`, replace `your_bot` in `https://t.me/your_bot?start=promo`.
-- **Text:** edit the `.eyebrow`, `.title` and `.desc` elements in `index.html`.
-- **Photo:** put the original in `source-images/`, then regenerate the WebP files:
+- **Text:** in `index.html`, edit `.title`, `.subtitle`, `.tagline`, `.eyebrow` (headline block) and `.desc` (above the button). Update the `description` / `og:description` / `twitter:description` meta tags to match.
+- **Colors and fonts:** variables at the top of `assets/css/styles.css` (`--page-bg`, `--blush`, `--cream`, `--display`, `--sans`).
+- **Photo framing:** `--photo-zoom`, `--photo-height`, `--photo-focus` at the top of `styles.css`. After changing `--photo-zoom`, update the `sizes` attribute on the `<img>` in `index.html` (`calc(100vw * ZOOM), 520*ZOOMpx`) so phones download a sharp enough file.
+- **Photo file:** put the original in `source-images/`, then regenerate the WebP files (the crop removes empty wall above the people):
 
 ```sh
-cwebp -q 80 -resize 1200 0 -metadata none source-images/hero-original.jpg -o assets/img/hero-1200.webp
-cwebp -q 78 -resize 800 0 -metadata none source-images/hero-original.jpg -o assets/img/hero-800.webp
+for w in 800 1200 1600 2400; do
+  cwebp -q 85 -sharp_yuv -crop 0 560 2726 3040 -resize $w 0 -metadata none \
+    source-images/hero-original.jpg -o assets/img/hero-$w.webp
+done
 ```
 
 If the new photo has a different aspect ratio, update the `width`/`height` attributes on the `<img>`.
+
+- **Link preview image:** `public/og.jpg`, 1200×630. It is referenced by its full URL in the meta tags, so keep the file name.
 
 ## Development
 
 ```sh
 npm install
-npm run dev      # dev server, also reachable from your phone on the same Wi-Fi
+npm run dev      # http://localhost:5174, also reachable from your phone on the same Wi-Fi
 npm run build    # production build into dist/
 npm run preview  # serve the dist/ build
 ```
 
-Deploy the contents of `dist/`.
+Deploy the contents of `dist/` to https://helper.makorishko.yoga.
